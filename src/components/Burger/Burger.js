@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Burger.css';
-import Aux from '../../hoc/Aux'
+import Aux from '../../hoc/Aux1';
 import BurgerIngridient from './BurgerIngridient/BurgerIngridient';
 const Burger = (props) => {
     let ingridients2 = Object.keys(props.ingridients).map(

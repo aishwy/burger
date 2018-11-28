@@ -1,5 +1,5 @@
 import React from 'react';
-import Aux from '../../../hoc/Aux'
+import Aux from '../../../hoc/Aux1';
 import { Transform } from 'stream';
 import Button from '../../UI/Button/Button';
 import classes from './OrderSummary.css'

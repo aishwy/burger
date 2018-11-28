@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import Aux from '../../hoc/Aux';
+import Aux from '../../hoc/Aux1';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
+<<<<<<< HEAD
+=======
+import Spinner from '../../components/UI/Spinner/Spinner';
+>>>>>>> 94e0debab782f7bf5e8ced2bbb35e4c0a1f5eb5a
 const PRICES = {
     salad: 0.8,
     meat: 1.5,
@@ -26,7 +30,8 @@ class BurgerBuilder extends Component {
             price : 5,
             lessDisable: true,
             purchasable: false,
-            purchasing: false
+            purchasing: false,
+            loading: false
         };
     }
     updatePurchaseStatus () {
@@ -47,7 +52,22 @@ class BurgerBuilder extends Component {
         this.setState({purchasing:false});
     }
     purchaseContinueHandler = () => {
-        alert("continue!");
+        this.setState({loading:true});
+        axios.post('/orders.json',{
+            ingridients: this.state.ingridients,
+            price: this.state.price, //must recalculate on server
+            customer:{
+                name: 'Aishwarya',
+                addr: {
+                    street: "test street",
+                    country: "India"
+                }
+            }
+        }).then(r=>{
+            this.setState({loading:false,purchasing:false});
+        }).catch(e=>{
+            this.setState({loading:false,purchasing:false});
+        })
     }
     moreHandler = (type) => {
         const newIngridients = this.state.ingridients;
@@ -87,17 +107,18 @@ class BurgerBuilder extends Component {
         for(let key in disableInfo) {
             disableInfo[key] = disableInfo[key] <=0
         }
+        let orderSummary = <OrderSummary 
+        price= {this.state.price}
+        yes={this.purchaseContinueHandler} 
+        no={this.backHandler}
+        ingridients={this.state.ingridients} /> ;
+        if(this.state.loading) orderSummary = <Spinner />;
         return (
             
             <Aux>
                 <Backdrop show={this.state.purchasing} click={this.backHandler} />
                 <Modal show={this.state.purchasing}> 
-                    <OrderSummary 
-                        price= {this.state.price}
-                        yes={this.purchaseContinueHandler} 
-                        no={this.backHandler}
-                        ingridients={this.state.ingridients} 
-                    /> 
+                    {orderSummary}
                 </Modal>
                 
                 <Burger ingridients={this.state.ingridients}/>
