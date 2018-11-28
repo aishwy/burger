@@ -6,10 +6,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
-<<<<<<< HEAD
-=======
 import Spinner from '../../components/UI/Spinner/Spinner';
->>>>>>> 94e0debab782f7bf5e8ced2bbb35e4c0a1f5eb5a
 const PRICES = {
     salad: 0.8,
     meat: 1.5,
