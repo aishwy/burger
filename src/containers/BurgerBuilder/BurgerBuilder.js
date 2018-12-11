@@ -28,7 +28,7 @@ class BurgerBuilder extends Component {
         };
     }
     componentDidMount() {
-        axios.get("/Ingridients")
+        axios.get("/Ingridients.json")
             .then(res => {
                 this.setState({ ingridients: res.data })
             })
@@ -53,7 +53,7 @@ class BurgerBuilder extends Component {
     }
     purchaseContinueHandler = () => {
         this.setState({ loading: true });
-        axios.post('/orders', {
+        axios.post('/orders.json', {
             ingridients: this.state.ingridients,
             price: this.state.price, //must recalculate on server
             customer: {
