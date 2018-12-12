@@ -8,6 +8,8 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../components/UI/withErrorHandler/withErrorHandler';
+import {Route,Switch} from 'react-router-dom';
+import Checkout from '../Checkout/Checkout'
 const PRICES = {
     salad: 0.8,
     meat: 1.5,
@@ -30,7 +32,7 @@ class BurgerBuilder extends Component {
     componentDidMount() {
         axios.get("/Ingridients.json")
             .then(res => {
-                this.setState({ ingridients: res.data })
+                this.setState({ ingridients: res.data });
             })
             .catch(err=>{this.setState({err:true})})
     }
@@ -52,22 +54,8 @@ class BurgerBuilder extends Component {
         this.setState({ purchasing: false });
     }
     purchaseContinueHandler = () => {
-        this.setState({ loading: true });
-        axios.post('/orders.json', {
-            ingridients: this.state.ingridients,
-            price: this.state.price, //must recalculate on server
-            customer: {
-                name: 'Aishwarya',
-                addr: {
-                    street: "test street",
-                    country: "India"
-                }
-            }
-        }).then(r => {
-            this.setState({ loading: false, purchasing: false });
-        }).catch(e => {
-            this.setState({ loading: false, purchasing: false });
-        })
+        this.setState({ purchasing: false });
+        
     }
     moreHandler = (type) => {
         if(this.state.ingridients)
@@ -123,7 +111,6 @@ class BurgerBuilder extends Component {
 
         if (this.state.loading) orderSummary = <Spinner />;
         return (
-
             <Aux>
 
                 <Modal show={this.state.purchasing}
@@ -133,6 +120,10 @@ class BurgerBuilder extends Component {
                 </Modal>
 
                 {burger}
+            <Switch>
+            
+            <Route path="/checkout" component={Checkout}/>
+            <Route path="/" render={()=>{return(
                 <BuildControls
                     ordered={this.purchaseHandler}
                     more={this.moreHandler}
@@ -141,7 +132,10 @@ class BurgerBuilder extends Component {
                     price={this.state.price.toFixed(2)}
                     purchasable={this.state.purchasable}
                 />
+            )}}/>
+            </Switch>
             </Aux>
+            
         )
     }
 }

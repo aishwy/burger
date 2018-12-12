@@ -37,3 +37,6 @@ take all these files, bundle them together and create a new output folder.
 In development mode all of that will happen in memory but once we do publish 
 our app, we will get a real different folder where all the optimized, compiled
 and bundled assets are contained in.
+
+to extract the query parameters. use the URLSearchParams constructor,
+pass arg which includes the ? and so on.
